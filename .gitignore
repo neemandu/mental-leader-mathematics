@@ -1,0 +1,10 @@
+# Internal source documents — not for publication
+*.docx
+*.pdf
+WhatsApp Image*.jpeg
+
+# Keep the downloadable program overview on the site
+!assets/program-overview.pdf
+
+# Original camera files (web-optimized photo-*.jpg are committed instead)
+images/IMG_*
