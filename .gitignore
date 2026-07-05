@@ -8,3 +8,6 @@ WhatsApp Image*.jpeg
 
 # Original camera files (web-optimized photo-*.jpg are committed instead)
 images/IMG_*
+
+# Raw video (too large for GitHub; compressed copy lives in assets/)
+the movell.mp4
