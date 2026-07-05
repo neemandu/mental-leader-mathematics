@@ -403,7 +403,11 @@ header.scrolled{border-color:var(--line);box-shadow:0 8px 30px rgba(13,14,18,.06
   display:flex;align-items:center;justify-content:center;
   flex-direction:column;gap:20px;box-shadow:var(--shadow-m);
 }
-.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.video-frame .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video-frame::after{content:"";position:absolute;inset:0;background:rgba(13,14,18,.18);pointer-events:none}
+.video-frame.playing::after{display:none}
+.play-wrap{z-index:2}
 .play-wrap{position:relative;width:96px;height:96px}
 .play-wrap::before{
   content:"";position:absolute;inset:-14px;border-radius:50%;
@@ -1032,13 +1036,12 @@ footer::before{content:"";position:absolute;top:-1px;left:0;width:100%;height:4p
       <p class="lead">Hear from participating mathematics teachers about how the program changed classroom conversations, student confidence and the way mistakes are used as part of learning.</p>
     </div>
     <div class="video-frame reveal" id="videoFrame">
-      <!-- Replace VIDEO_ID in the script below with the YouTube video ID -->
+      <img class="poster" src="assets/teachers-story-poster.jpg" alt="A participating mathematics teacher being interviewed about the program">
       <span class="play-wrap">
         <button class="play-btn" id="playBtn" aria-label="Play the teachers' story video">
           <svg width="32" height="32" viewBox="0 0 30 30"><polygon points="6,3 27,15 6,27" fill="#fff"/></svg>
         </button>
       </span>
-      <span class="ph-text">Video coming soon &mdash; embedded teacher interviews</span>
     </div>
     <a class="btn btn-pink reveal" href="#video" id="watchBtn">Watch the Video <span class="arr">&rarr;</span></a>
   </div>
@@ -1254,13 +1257,12 @@ const barIO = new IntersectionObserver(entries => {
 }, {threshold: .3});
 document.querySelectorAll('.bars').forEach(el => barIO.observe(el));
 
-// video placeholder -> YouTube embed. Set VIDEO_ID when the video is ready.
-const VIDEO_ID = ''; // e.g. 'dQw4w9WgXcQ'
+// self-hosted teachers' story video
 function loadVideo(){
-  if (!VIDEO_ID) return;
   const frame = document.getElementById('videoFrame');
-  frame.innerHTML = '<iframe src="https://www.youtube.com/embed/' + VIDEO_ID +
-    '?autoplay=1&rel=0" title="The Teachers’ Story" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  if (frame.classList.contains('playing')) return;
+  frame.classList.add('playing');
+  frame.innerHTML = '<video src="assets/teachers-story.mp4" poster="assets/teachers-story-poster.jpg" controls autoplay playsinline title="The Teachers’ Story"></video>';
 }
 document.getElementById('playBtn').addEventListener('click', loadVideo);
 document.getElementById('watchBtn').addEventListener('click', loadVideo);
