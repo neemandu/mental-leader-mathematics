@@ -1264,7 +1264,11 @@ function loadVideo(){
   const frame = document.getElementById('videoFrame');
   if (frame.classList.contains('playing')) return;
   frame.classList.add('playing');
-  frame.innerHTML = '<video src="assets/teachers-story.mp4" poster="assets/teachers-story-poster.jpg" controls autoplay playsinline title="The Teachers’ Story"></video>';
+  frame.innerHTML = '<video src="assets/teachers-story.mp4" poster="assets/teachers-story-poster.jpg" controls autoplay playsinline title="The Teachers’ Story"><track kind="subtitles" src="assets/teachers-story-en.vtt" srclang="en" label="English" default></video>';
+  const vid = frame.querySelector('video');
+  vid.addEventListener('loadedmetadata', () => {
+    if (vid.textTracks[0]) vid.textTracks[0].mode = 'showing';
+  });
 }
 document.getElementById('playBtn').addEventListener('click', loadVideo);
 document.getElementById('watchBtn').addEventListener('click', loadVideo);
